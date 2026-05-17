@@ -4,14 +4,18 @@
 <body>
 <p style="font-family:sans-serif;color:#666;padding:2rem;">Connecting... this window will close automatically.</p>
 <script>
-  const hash = window.location.hash.slice(1);
-  const params = new URLSearchParams(hash);
-  const token = params.get('access_token');
-  if (token) {
-    window.opener.postMessage({ gsc_token: token }, 'https://claude.ai');
-    setTimeout(() => window.close(), 500);
-  } else {
-    document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem;">Auth failed — no token received. Close this window and try again.</p>';
+  try {
+    var hash = window.location.hash.slice(1);
+    var params = new URLSearchParams(hash);
+    var token = params.get('access_token');
+    if (token) {
+      window.opener.postMessage({ gsc_token: token }, 'https://claude.ai');
+      setTimeout(function(){ window.close(); }, 800);
+    } else {
+      document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem;color:red;">No token received. Close this and try again.</p>';
+    }
+  } catch(e) {
+    document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem;color:red;">Error: ' + e.message + '</p>';
   }
 </script>
 </body>
