@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>GSC Auth</title></head>
+<body>
+<p style="font-family:sans-serif;color:#666;padding:2rem;">Connecting... this window will close automatically.</p>
+<script>
+  const hash = window.location.hash.slice(1);
+  const params = new URLSearchParams(hash);
+  const token = params.get('access_token');
+  if (token) {
+    window.opener.postMessage({ gsc_token: token }, 'https://claude.ai');
+    setTimeout(() => window.close(), 500);
+  } else {
+    document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem;">Auth failed — no token received. Close this window and try again.</p>';
+  }
+</script>
+</body>
+</html>
